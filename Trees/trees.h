@@ -3,9 +3,10 @@
 typedef struct trees
 {
 	int key;
-	struct tree *data;
-	struct tree *right;
-	struct tree *left;
-} tree;
+	int data;
+	struct node* right;
+	struct node* left;
+	struct node* parent;
+} node;
 
 void create_node();
