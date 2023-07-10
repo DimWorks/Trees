@@ -7,6 +7,22 @@
 
 node* ROOT = NULL;
 
+node* search_the_node(node* tree, int key)
+{
+	if (tree == NULL) return NULL;
+	if (tree->key == key)
+	{
+		return tree;
+	}
+	else
+	{
+		search_the_node(tree->left, key);
+		search_the_node(tree->right, key);
+		//printf("Такого узла не существует.\n");
+		//printf("Такого узла не существует.\nСоздать его?\n1 - ДА\n2 - НЕТ\n");
+	}
+}
+
 void add_the_node(node* tree, int key, int data)
 {
 	node* tmp = NULL;
@@ -45,7 +61,7 @@ void create_node(int key, int data)
 			tmp->key = key;
 			if (ROOT != NULL)
 			{
-				
+				///////////////////////
 			}
 			else
 			{
@@ -55,6 +71,6 @@ void create_node(int key, int data)
 		}
 		else
 		{
-			printf("Недлстаточно памяти. Невозможно создать узел\n");
+			printf("Недостаточно памяти. Невозможно создать узел.\n");
 		}
 }

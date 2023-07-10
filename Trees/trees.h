@@ -9,4 +9,6 @@ typedef struct trees
 	struct node* parent;
 } node;
 
-void create_node();
+node* search_the_node(node* tree, int key);
+void add_the_node(node* tree, int key, int data);
+void create_node(int key, int data);
