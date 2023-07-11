@@ -4,10 +4,12 @@
 
 #define RUS setlocale(LC_ALL, "RU");
 
+node* ROOT;
+
 int main()
 {
 	RUS
-	if (search_the_node(NULL, 5) == NULL)
+	if (search_the_node(ROOT, 5) == NULL)
 	{
 		printf("\nЁлемент не найден!\n");
 	}
@@ -16,9 +18,13 @@ int main()
 		printf("\nЌашЄл!");
 	}
 
-	create_node(5, 67);
+	for (int i = 0; i < 10; i++)
+	{
+		create_node(i*2, i+6);
+	}
+	
 
-	if (search_the_node(NULL, 5) == NULL)
+	if (search_the_node(ROOT, 2) == NULL)
 	{
 		printf("\nЁлемент не найден!\n");
 	}

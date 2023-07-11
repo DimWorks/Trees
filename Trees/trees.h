@@ -1,5 +1,7 @@
 #pragma once
 
+
+
 typedef struct trees
 {
 	int key;
@@ -8,6 +10,8 @@ typedef struct trees
 	struct node* left;
 	struct node* parent;
 } node;
+
+extern node* ROOT;
 
 node* search_the_node(node* tree, int key);
 void add_the_node(node* tree, int key, int data);

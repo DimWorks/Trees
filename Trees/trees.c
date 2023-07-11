@@ -61,7 +61,7 @@ void create_node(int key, int data)
 			tmp->key = key;
 			if (ROOT != NULL)
 			{
-				///////////////////////
+				
 			}
 			else
 			{
@@ -73,4 +73,36 @@ void create_node(int key, int data)
 		{
 			printf("Недостаточно памяти. Невозможно создать узел.\n");
 		}
+}
+
+node* get_max(node* tree)
+{
+	RUS 
+
+	if (tree == NULL)
+	{
+		printf("Дерева не существует!\n");
+		return;
+	}
+	if (tree->right == NULL)
+	{
+		return tree;
+	}
+	return(get_max(tree->right));
+}
+
+node* get_min(node* tree)
+{
+	RUS
+
+	if (tree == NULL)
+	{
+		printf("Дерева не существует!\n");
+		return;
+	}
+	if (tree->left == NULL)
+	{
+		return tree;
+	}
+	return(get_max(tree->left));
 }
