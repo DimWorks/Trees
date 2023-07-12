@@ -20,13 +20,18 @@ int main()
 
 	for (int i = 0; i < 10; i++)
 	{
-		create_node(i, i+6);
-		printf("%d   %d    done\n", i, i + 6);
+		create_node((i % 2) == 0 ? i : i * (-1), i);
+		printf("-----------------------------------\n");
+		printf("%d   %d    done\n", (i%2) == 0 ? i : i * (-1), i);
+		printf("-----------------------------------\n");
+		showTree(ROOT, 0, 0);
 	}
 
-	/*create_node(5, 6);
-	create_node(15, 6);
-	create_node(2, 6);*/
+	create_node(6, 6);
+	create_node(15, 15);
+	create_node(-6, 6);
+
+
 
 	
 
@@ -36,6 +41,9 @@ int main()
 	}
 	else
 	{
-		printf("\nÍàø¸ë!");
+		printf("\nÍàø¸ë!\n");
 	}
+
+	showTree(ROOT, 0, 0);
+
 }

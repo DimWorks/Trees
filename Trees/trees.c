@@ -21,6 +21,54 @@ node* search_the_node(node* tree, int key)
 	}
 }
 
+node* finde_parend(node* parent, int key)
+{
+	if (key < parent->key)
+	{
+		if (parent->left != NULL)
+		{
+			finde_parend(parent->left, key);
+		}
+		else
+		{
+			return parent;
+		}
+	}
+	else
+	{
+		if (parent->right != NULL)
+		{
+			finde_parend(parent->right, key);
+		}
+		else
+		{
+			return parent;
+		}
+	}
+
+
+	//if (parent->left != NULL)
+	//{
+	//	if (key < parent->key)
+	//	{
+	//		finde_parend(parent->left, key);
+	//	}
+	//	
+	//}	
+	//if (parent->right != NULL)
+	//{
+	//	if (key >= parent->key)
+	//	{
+	//		finde_parend(parent->right, key);
+	//	}
+	//	//finde_parend(parent->right, key);
+	//}
+	//else
+	//{
+	//	return parent;
+	//}
+}
+
 void create_node(int key, int data)
 {
 	node* tree = NULL;
@@ -31,19 +79,7 @@ void create_node(int key, int data)
 			tree->left = tree->right = NULL;
 			if (ROOT != NULL)
 			{
-				node* parent = ROOT;
-
-				while (parent->left != NULL || parent->right != NULL)
-				{
-					if (key < parent->key)
-					{
-						parent = parent->left;
-					}
-					else
-					{
-						parent = parent->right;
-					}
-				}
+				node* parent = finde_parend(ROOT, key);
 
 				tree->parent = parent;
 
@@ -55,38 +91,6 @@ void create_node(int key, int data)
 				{
 					parent->right = tree;
 				}
-
-
-				//while(tree != NULL) 
-				//{
-				//	if (key < tree->key)
-				//	{
-				//		if (tree->left == NULL)
-				//		{
-				//			tree->left = tmp;
-				//			root->parent = tree;
-				//		}
-				//		/*else
-				//		{
-				//			tre = tre->left;
-				//		}*/
-				//	}
-				//	else
-				//	{
-				//		if (tree->right == NULL)
-				//		{
-				//			tree->right = tmp;
-				//			root->parent = tree;
-				//			tree = tree->right;
-				//			tree->right = NULL;
-				//		}
-				//		else
-				//		{
-				//			tree = tree->right;
-				//			//exit(0);
-				//		}
-				//	}
-				//}
 			}
 			else
 			{
@@ -130,4 +134,35 @@ node* get_min(node* tree)
 		return tree;
 	}
 	return(get_max(tree->left));
+}
+
+void showLine(char* c, int p, int s) {
+	int t = s; 
+	for (int i = 0; i < p; i++) 
+	{ 
+		printf(t & 1 ? "|  " : "   "); 
+		t /= 2; 
+	} 
+	printf(c);
+}
+void showTree(node* tree, int p, int s)
+{
+	if (tree == NULL)
+	{
+		return;
+	}
+		
+	printf("%d", tree->data); 
+	printf("\n");
+
+	if (tree->left != NULL) {
+		showLine("|\n", p, s); 
+		showLine("L: ", p, s);
+		showTree(tree->left, p + 1, s + ((tree->right == NULL ? 0 : 1) << p));
+	}
+	if (tree->right != NULL) {
+		showLine("|\n", p, s); 
+		showLine("R: ", p, s);
+		showTree(tree->right, p + 1, s);
+	}
 }
