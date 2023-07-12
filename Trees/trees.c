@@ -18,55 +18,80 @@ node* search_the_node(node* tree, int key)
 	{
 		search_the_node(tree->left, key);
 		search_the_node(tree->right, key);
-		//printf("Такого узла не существует.\n");
-		//printf("Такого узла не существует.\nСоздать его?\n1 - ДА\n2 - НЕТ\n");
-	}
-}
-
-void add_the_node(node* tree, int key, int data)
-{
-	node* tmp = NULL;
-	tmp->data = data;
-	tmp->key = key;
-	if (key < tree->key)
-	{
-		if (tree->left == NULL)
-		{
-			tree->left = tmp;
-		}
-		else
-		{
-			add_the_node(tree->left, key, data);
-		}
-	}
-	else
-	{
-		if (tree->right == NULL)
-		{
-			tree->right = tmp;
-		}
-		else
-		{
-			add_the_node(tree->right, key, data);
-		}
 	}
 }
 
 void create_node(int key, int data)
 {
-	node* tmp = NULL;
-		if ((tmp = (node*)malloc(sizeof(node))))
+	node* tree = NULL;
+		if ((tree = (node*)malloc(sizeof(node))))
 		{
-			tmp->data = data;
-			tmp->key = key;
+			tree->data = data;
+			tree->key = key;
+			tree->left = tree->right = NULL;
 			if (ROOT != NULL)
 			{
-				
+				node* parent = ROOT;
+
+				while (parent->left != NULL || parent->right != NULL)
+				{
+					if (key < parent->key)
+					{
+						parent = parent->left;
+					}
+					else
+					{
+						parent = parent->right;
+					}
+				}
+
+				tree->parent = parent;
+
+				if (key < parent->key)
+				{
+					parent->left = tree;
+				}
+				else
+				{
+					parent->right = tree;
+				}
+
+
+				//while(tree != NULL) 
+				//{
+				//	if (key < tree->key)
+				//	{
+				//		if (tree->left == NULL)
+				//		{
+				//			tree->left = tmp;
+				//			root->parent = tree;
+				//		}
+				//		/*else
+				//		{
+				//			tre = tre->left;
+				//		}*/
+				//	}
+				//	else
+				//	{
+				//		if (tree->right == NULL)
+				//		{
+				//			tree->right = tmp;
+				//			root->parent = tree;
+				//			tree = tree->right;
+				//			tree->right = NULL;
+				//		}
+				//		else
+				//		{
+				//			tree = tree->right;
+				//			//exit(0);
+				//		}
+				//	}
+				//}
 			}
 			else
 			{
-				tmp->left = tmp->right = tmp->parent = NULL;
-				ROOT = tmp;
+				tree->left = tree->right = tree->parent = NULL;
+				ROOT = tree;
 			}
 		}
 		else

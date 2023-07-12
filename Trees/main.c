@@ -20,11 +20,17 @@ int main()
 
 	for (int i = 0; i < 10; i++)
 	{
-		create_node(i*2, i+6);
+		create_node(i, i+6);
+		printf("%d   %d    done\n", i, i + 6);
 	}
+
+	/*create_node(5, 6);
+	create_node(15, 6);
+	create_node(2, 6);*/
+
 	
 
-	if (search_the_node(ROOT, 2) == NULL)
+	if (search_the_node(ROOT, 8) == NULL)
 	{
 		printf("\nЁлемент не найден!\n");
 	}
