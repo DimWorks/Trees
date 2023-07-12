@@ -45,28 +45,6 @@ node* finde_parend(node* parent, int key)
 			return parent;
 		}
 	}
-
-
-	//if (parent->left != NULL)
-	//{
-	//	if (key < parent->key)
-	//	{
-	//		finde_parend(parent->left, key);
-	//	}
-	//	
-	//}	
-	//if (parent->right != NULL)
-	//{
-	//	if (key >= parent->key)
-	//	{
-	//		finde_parend(parent->right, key);
-	//	}
-	//	//finde_parend(parent->right, key);
-	//}
-	//else
-	//{
-	//	return parent;
-	//}
 }
 
 void create_node(int key, int data)
@@ -165,4 +143,59 @@ void showTree(node* tree, int p, int s)
 		showLine("R: ", p, s);
 		showTree(tree->right, p + 1, s);
 	}
+}
+
+unsigned char level(node* tree)
+{
+	return tree ? tree->level : 0; //Если узел существует, возврящаем его уровень, иначе 0
+}
+
+int balance_faxtor(node* tree)
+{
+	return level(tree->right) - level(tree->left);
+}
+
+void fix_level(node* tree)
+{
+	unsigned char level_left = level(tree->left);
+	unsigned char level_right = level(tree->right);
+	tree->level = (level_left > level_right ? level_left : level_right) + 1;
+}
+
+node* rotate_to_right(node* tree)
+{
+	node* tmp = tree->left;
+	tree->left = tmp->right;
+	tmp->right = tree;
+	fix_level(tree);
+	fix_level(tmp);
+	return tree;
+}
+
+node* rotate_to_left(node* tree)
+{
+	node* tmp = tree->right;
+	tree->right = tmp->left;
+	tmp->right = tree;
+	fix_level(tmp);
+	fix_level(tree);
+	return tree;
+}
+
+node* balance(node* p) // балансировка узла p
+{
+	fix_level(p);
+	if (balance_faxtor(p) == 2)
+	{
+		if (balance_faxtor(p->right) < 0)
+			p->right = rotate_to_right(p->right);
+		return rotate_to_left(p);
+	}
+	if (balance_faxtor(p) == -2)
+	{
+		if (balance_faxtor(p->left) > 0)
+			p->left = rotate_to_left(p->left);
+		return rotate_to_right(p);
+	}
+	return p; // балансировка не нужна
 }

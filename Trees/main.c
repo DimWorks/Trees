@@ -18,20 +18,25 @@ int main()
 		printf("\nНашёл!");
 	}
 
+	//for (int i = 0; i < 10; i++)
+	//{
+	//	create_node((i % 2) == 0 ? i : i * (-1), i);
+	//	printf("%d   %d    done\n", (i%2) == 0 ? i : i * (-1), i);
+
+	//}
+
+	//create_node(6, 6);
+	//create_node(15, 15);
+	//create_node(-6, 6);
+
 	for (int i = 0; i < 10; i++)
 	{
-		create_node((i % 2) == 0 ? i : i * (-1), i);
-		printf("-----------------------------------\n");
-		printf("%d   %d    done\n", (i%2) == 0 ? i : i * (-1), i);
-		printf("-----------------------------------\n");
-		showTree(ROOT, 0, 0);
+		create_node(i, i);
+		printf("%d   %d    done\n", i, i);
+
 	}
 
-	create_node(6, 6);
-	create_node(15, 15);
-	create_node(-6, 6);
-
-
+	
 
 	
 
@@ -45,5 +50,11 @@ int main()
 	}
 
 	showTree(ROOT, 0, 0);
+
+	balance(finde_parend(ROOT, 5));
+
+	showTree(ROOT, 0, 0);
+
+	//printf("\n%d", sizeof(node));
 
 }
