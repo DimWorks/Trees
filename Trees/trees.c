@@ -200,11 +200,24 @@ node* balance(node* p) // балансировка узла p
 	return p; // балансировка не нужна
 }
 
-node* delete(node* root, int key)
+void search(int key)
+{
+	node* tree = finde_parend(ROOT, key);
+	if (key < tree->key)
+	{
+		return tree->left;
+	}
+	else
+	{
+		return tree->right;
+	}
+}
+
+void delete(node* root, int key)
 {
 	// Поиск удаляемого узла по ключу
-	node* p = root, * l = NULL, * m = NULL;
-	l = search(root, key);
+	node* tree = root, * l = NULL, * m = NULL;
+	l = search(key);
 	// 1 случай
 	if ((l->left == NULL) && (l->right == NULL))
 	{
@@ -213,31 +226,30 @@ node* delete(node* root, int key)
 		else m->left = NULL;
 		free(l);
 	}
-	//// 2 случай, 1 вариант - поддерево справа
-	//if ((l->left == NULL) && (l->right != NULL))
-	//{
-	//	m = l->parent;
-	//	if (l == m->right) m->right = l->right;
-	//	else m->left = l->right;
-	//	free(l);
-	//}
-	//// 2 случай, 2 вариант - поддерево слева
-	//if ((l->left != NULL) && (l->right == NULL))
-	//{
-	//	m = l->parent;
-	//	if (l == m->right) m->right = l->left;
-	//	else m->left = l->left;
-	//	free(l);
-	//}
-	//// 3 случай
-	//if ((l->left != NULL) && (l->right != NULL))
-	//{
-	//	m = succ(l);
-	//	l->key = m->key;
-	//	if (m->right == NULL)
-	//		m->parent->left = NULL;
-	//	else m->parent->left = m->right;
-	//	free(m);
-	//}
-	return root;
+	// 2 случай, 1 вариант - поддерево справа
+	if ((l->left == NULL) && (l->right != NULL))
+	{
+		m = l->parent;
+		if (l == m->right) m->right = l->right;
+		else m->left = l->right;
+		free(l);
+	}
+	// 2 случай, 2 вариант - поддерево слева
+	if ((l->left != NULL) && (l->right == NULL))
+	{
+		m = l->parent;
+		if (l == m->right) m->right = l->left;
+		else m->left = l->left;
+		free(l);
+	}
+	// 3 случай
+	if ((l->left != NULL) && (l->right != NULL))
+	{
+		m = succ(l);
+		l->key = m->key;
+		if (m->right == NULL)
+			m->parent->left = NULL;
+		else m->parent->left = m->right;
+		free(m);
+	}
 }
