@@ -151,61 +151,6 @@ void showTree(node* tree, int p, int s)
 	}
 }
 
-unsigned char level(node* tree)
-{
-	return tree ? tree->level : 0; //≈сли узел существует, возвр€щаем его уровень, иначе 0
-}
-
-int balance_faxtor(node* tree)
-{
-	return level(tree->right) - level(tree->left);
-}
-
-void fix_level(node* tree)
-{
-	unsigned char level_left = level(tree->left);
-	unsigned char level_right = level(tree->right);
-	tree->level = (level_left > level_right ? level_left : level_right) + 1;
-}
-
-node* rotate_to_right(node* tree)
-{
-	node* tmp = tree->left;
-	tree->left = tmp->right;
-	tmp->right = tree;
-	fix_level(tree);
-	fix_level(tmp);
-	return tree;
-}
-
-node* rotate_to_left(node* tree)
-{
-	node* tmp = tree->right;
-	tree->right = tmp->left;
-	tmp->right = tree;
-	fix_level(tmp);
-	fix_level(tree);
-	return tree;
-}
-
-node* balance(node* p) // балансировка узла p
-{
-	fix_level(p);
-	if (balance_faxtor(p) == 2)
-	{
-		if (balance_faxtor(p->right) < 0)
-			p->right = rotate_to_right(p->right);
-		return rotate_to_left(p);
-	}
-	if (balance_faxtor(p) == -2)
-	{
-		if (balance_faxtor(p->left) > 0)
-			p->left = rotate_to_left(p->left);
-		return rotate_to_right(p);
-	}
-	return p; // балансировка не нужна
-}
-
 void delete_node(int key)
 {
 	node* root = ROOT;
@@ -287,4 +232,56 @@ void delete_node(int key)
 		root->level = maxLeft->level;
 		root->parent = maxLeft->parent;
 	}
+}
+
+// √лубина узла
+int max_level_node(node* tree, int level)
+{
+	if (tree)
+	{
+		int new_level_1 = max_level_node(tree->left, level + 1);
+		int new_level_2 = max_level_node(tree->right, level + 1);
+		if (new_level_1 > level) level = new_level_1;
+		if (new_level_2 > level) level = new_level_2;
+	}
+	return level;
+}
+
+// ћаксимальна€ глубина дерева
+int max_level(node* tree)
+{
+	return max_level_node(tree, -1);
+}
+
+void balance_tree(node** tree)
+{
+	if (*tree)
+	{
+		while (max_level((*tree)->left) - max_level((*tree)->right) >= 2)
+		{
+			node* tmp = (*tree)->left;
+			(*tree)->left = tmp->right;
+			tmp->right = *tree;
+			*tree = tmp;
+		}
+
+		while (max_level((*tree)->right) - max_level((*tree)->left) >= 2)
+		{
+			node* tmp = (*tree)->right;
+			(*tree)->right = tmp->left;
+			tmp->left = *tree;
+			*tree = tmp;
+		}
+		balance_tree(&((*tree)->left));
+		balance_tree(&((*tree)->right));
+	}
+}
+
+void balance()
+{
+	if (ROOT == NULL)
+	{
+		return NULL;
+	}
+	balance_tree(&ROOT);
 }

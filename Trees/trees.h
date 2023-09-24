@@ -19,5 +19,5 @@ void add_the_node(node* tree, int key, int data);
 void create_node(int key, int data);
 void showTree(node* tree, int p, int s);
 node* finde_parend(node* parent, int key);
-node* balance(node* p);
 void delete_node(int key);
+void balance();

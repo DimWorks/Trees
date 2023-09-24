@@ -25,26 +25,26 @@ int main()
 
 	}*/
 
-	create_node(3, 3);
-	create_node(15, 15);
-	create_node(2, 2);
-	create_node(1, 1);
-	create_node(11, 11);
-	create_node(7, 7);
-	create_node(5, 5);
-	//create_node(6, 6);
-	create_node(10, 10);
-	create_node(14, 14);
-	create_node(13, 13);
-	create_node(4, 4);
+	//create_node(3, 3);
+	//create_node(15, 15);
+	//create_node(2, 2);
+	//create_node(1, 1);
+	//create_node(11, 11);
+	//create_node(7, 7);
+	//create_node(5, 5);
+	////create_node(6, 6);
+	//create_node(10, 10);
+	//create_node(14, 14);
+	//create_node(13, 13);
+	//create_node(4, 4);
 
 
-	/*for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		create_node(i, i);
 		printf("%d   %d    done\n", i, i);
 
-	}	*/
+	}	
 
 	if (search_the_node(ROOT, 5) == NULL)
 	{
@@ -57,10 +57,10 @@ int main()
 
 	showTree(ROOT, 0, 0);
 
-	balance(ROOT);
+	balance();
 
-	delete_node(5);
-	delete_node(9);
+	//delete_node(5);
+	//delete_node(9);
 
 	showTree(ROOT, 0, 0);
 }
