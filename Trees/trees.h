@@ -5,7 +5,7 @@
 typedef struct trees
 {
 	int key;
-	int data;
+	void* data;
 	struct node* right;
 	struct node* left;
 	struct node* parent;
@@ -20,3 +20,4 @@ void create_node(int key, int data);
 void showTree(node* tree, int p, int s);
 node* finde_parend(node* parent, int key);
 node* balance(node* p);
+void delete_node(int key);

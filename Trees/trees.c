@@ -9,15 +9,21 @@ node* ROOT = NULL;
 
 node* search_the_node(node* tree, int key)
 {
-	if (tree == NULL) return NULL;
+	if (tree == NULL)
+	{
+		return NULL;
+	}
 	if (tree->key == key)
 	{
 		return tree;
 	}
+	else if(key < tree->key)
+	{
+		return search_the_node(tree->left, key);		
+	}
 	else
 	{
-		search_the_node(tree->left, key);
-		search_the_node(tree->right, key);
+		return search_the_node(tree->right, key);
 	}
 }
 
@@ -200,56 +206,85 @@ node* balance(node* p) // балансировка узла p
 	return p; // балансировка не нужна
 }
 
-void search(int key)
+void delete_node(int key)
 {
-	node* tree = finde_parend(ROOT, key);
-	if (key < tree->key)
+	node* root = ROOT;
+	root = search_the_node(root, key);
+	if (root == NULL)
 	{
-		return tree->left;
+		return NULL;
+	}	
+
+	if (root->left == NULL || root->right == NULL)
+	{
+		if (root->left == NULL)
+		{
+			node* tmp = root->parent;
+			if (key < tmp->key)
+			{
+				tmp->left = root->right;				
+			}
+			else
+			{
+				tmp->right = root->right;
+			}
+			tmp = root;
+			root = root->right;
+			if (tmp->right != NULL)
+			{
+				node* that_node = tmp->right;
+				that_node->parent = tmp->parent;
+			}
+			if (tmp->left != NULL)
+			{
+				node* that_node = tmp->left;
+				that_node->parent = tmp->parent;
+			}
+			free(tmp);
+		}
+		else
+		{
+			node* tmp = root->parent;
+			if (key < tmp->key)
+			{
+				tmp->left = root->left;
+			}
+			else
+			{
+				tmp->right = root->left;
+			}
+			tmp = root;
+			root = root->left;
+			if (tmp->right != NULL)
+			{
+				node* that_node = tmp->right;
+				that_node->parent = tmp->parent;
+			}
+			if (tmp->left != NULL)
+			{
+				node* that_node = tmp->left;
+				that_node->parent = tmp->parent;
+			}
+			free(tmp);
+		}
+	}
+	else if (root->left == NULL && root->right == NULL)
+	{
+		node* tmp = root->parent;
+		if (key < tmp->key)
+		{
+			tmp->left = NULL;
+			free(root);
+		}
 	}
 	else
 	{
-		return tree->right;
-	}
-}
-
-void delete(node* root, int key)
-{
-	// ѕоиск удал€емого узла по ключу
-	node* tree = root, * l = NULL, * m = NULL;
-	l = search(key);
-	// 1 случай
-	if ((l->left == NULL) && (l->right == NULL))
-	{
-		m = l->parent;
-		if (l == m->right) m->right = NULL;
-		else m->left = NULL;
-		free(l);
-	}
-	// 2 случай, 1 вариант - поддерево справа
-	if ((l->left == NULL) && (l->right != NULL))
-	{
-		m = l->parent;
-		if (l == m->right) m->right = l->right;
-		else m->left = l->right;
-		free(l);
-	}
-	// 2 случай, 2 вариант - поддерево слева
-	if ((l->left != NULL) && (l->right == NULL))
-	{
-		m = l->parent;
-		if (l == m->right) m->right = l->left;
-		else m->left = l->left;
-		free(l);
-	}
-	// 3 случай
-	if ((l->left != NULL) && (l->right != NULL))
-	{
-		m = succ(l);
-		l->key = m->key;
-		if (m->right == NULL)
-			m->parent->left = NULL;
-		else m->parent->left = m->right;
-		free(m);
+		node* maxLeft = get_max(root->left);
+		root->data = maxLeft->data;
+		root->key = maxLeft->key;
+		root->left = maxLeft->left;
+		root->right = maxLeft->right;
+		root->level = maxLeft->level;
+		root->parent = maxLeft->parent;
 	}
 }
